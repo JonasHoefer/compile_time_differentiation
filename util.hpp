@@ -10,6 +10,12 @@ namespace diff
     {
         static constexpr auto value = a < b ? b : a;
     };
+    
+    using x = var<0>;
+
+    using y = var<1>;
+
+    using z = var<2>;
 
     template<typename T>
     struct var_num;

@@ -1,7 +1,7 @@
 #ifndef SYMBOLIC_DIFFERENTIATION_AST_HPP
 #define SYMBOLIC_DIFFERENTIATION_AST_HPP
 
-#include <math.h>
+#include <cmath>
 #include <map>
 #include <type_traits>
 
@@ -10,18 +10,11 @@ namespace diff
     template<size_t i>
     struct var
     {
-        inline double operator()(std::map<size_t, double> vars) const noexcept
+        inline double operator()(const std::map<size_t, double>& vars) const noexcept
         {
             return vars.at(i);
         }
     };
-
-    using x = var<0>;
-
-    using y = var<1>;
-
-    using z = var<2>;
-
 
     template<typename lhs_t, typename rhs_t>
     struct plus
@@ -30,7 +23,7 @@ namespace diff
 
         rhs_t rhs;
 
-        inline double operator()(std::map<size_t, double> vars) const noexcept
+        inline double operator()(const std::map<size_t, double>& vars) const noexcept
         {
             return lhs(vars) + rhs(vars);
         }
@@ -43,7 +36,7 @@ namespace diff
 
         rhs_t rhs;
 
-        inline double operator()(std::map<size_t, double> vars) const noexcept
+        inline double operator()(const std::map<size_t, double>& vars) const noexcept
         {
             return lhs(vars) * rhs(vars);
         }
@@ -56,7 +49,7 @@ namespace diff
 
         E e;
 
-        inline double operator()(std::map<size_t, double> vars) const noexcept
+        inline double operator()(const std::map<size_t, double>& vars) const noexcept
         {
             return std::pow(b(vars), e(vars));
         }
@@ -65,7 +58,7 @@ namespace diff
     template<long val>
     struct constant
     {
-        inline double operator()(std::map<size_t, double> vars) const noexcept
+        inline double operator()(const std::map<size_t, double>&) const noexcept
         {
             return val;
         }
