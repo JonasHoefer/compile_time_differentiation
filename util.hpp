@@ -3,46 +3,25 @@
 
 #include "ast.hpp"
 
-template<auto a, auto b>
-struct max
+namespace diff
 {
-    static constexpr auto value = a < b ? b : a;
-};
+    template<auto a, auto b>
+    struct max
+    {
+        static constexpr auto value = a < b ? b : a;
+    };
 
-template<typename T>
-struct var_count;
+    template<typename T>
+    struct var_num;
 
-template<size_t i>
-struct var_count<var<i>>
-{
-    static constexpr auto value = i;
-};
+    template<size_t i>
+    struct var_num<diff::var<i>>
+    {
+        static constexpr size_t value = i;
+    };
 
-template<typename lhs, typename rhs>
-struct var_count<plus<lhs, rhs>>
-{
-    static constexpr auto value = max<var_count<lhs>::value, var_count<rhs>::value>::value;
-};
-
-template<typename lhs, typename rhs>
-struct var_count<times<lhs, rhs>>
-{
-    static constexpr auto value = max<var_count<lhs>::value, var_count<rhs>::value>::value;
-};
-
-template<size_t i, size_t e>
-struct var_count<pow_var<i, e>>
-{
-    static constexpr auto value = 1;
-};
-
-template<long v>
-struct var_count<constant<v>>
-{
-    static constexpr auto value = 0;
-};
-
-template<typename F>
-using vars_t = std::array<double, var_count<F>::value>;
+    template<typename F, typename V>
+    using d = D<F, var_num<V>::value>;
+}
 
 #endif //SYMBOLIC_DIFFERENTIATION_UTIL_HPP

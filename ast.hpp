@@ -5,71 +5,77 @@
 #include <array>
 #include <type_traits>
 
-template<size_t i>
-struct var
+namespace diff
 {
-    template<size_t var_count>
-    inline double operator()(std::array<double, var_count> vars) const noexcept
+    template<size_t i>
+    struct var
     {
-        return vars.at(i);
-    }
-};
+        template<size_t var_count>
+        inline double operator()(std::array<double, var_count> vars) const noexcept
+        {
+            return vars.at(i);
+        }
+    };
 
-using x = var<0>;
+    using x = var<0>;
 
-using y = var<1>;
+    using y = var<1>;
 
-using z = var<2>;
+    using z = var<2>;
 
 
-template<typename lhs_t, typename rhs_t>
-struct plus
-{
-    lhs_t lhs;
-
-    rhs_t rhs;
-
-    template<size_t var_count>
-    inline double operator()(std::array<double, var_count> vars) const noexcept
+    template<typename lhs_t, typename rhs_t>
+    struct plus
     {
-        return lhs(vars) + rhs(vars);
-    }
-};
+        lhs_t lhs;
 
-template<typename lhs_t, typename rhs_t>
-struct times
-{
-    lhs_t lhs;
+        rhs_t rhs;
 
-    rhs_t rhs;
+        template<size_t var_count>
+        inline double operator()(std::array<double, var_count> vars) const noexcept
+        {
+            return lhs(vars) + rhs(vars);
+        }
+    };
 
-    template<size_t var_count>
-    inline double operator()(std::array<double, var_count> vars) const noexcept
+    template<typename lhs_t, typename rhs_t>
+    struct times
     {
-        return lhs(vars) * rhs(vars);
-    }
-};
+        lhs_t lhs;
 
-template<size_t i, size_t e>
-struct pow_var
-{
+        rhs_t rhs;
 
-    template<size_t var_count>
-    inline double operator()(std::array<double, var_count> vars) const noexcept
+        template<size_t var_count>
+        inline double operator()(std::array<double, var_count> vars) const noexcept
+        {
+            return lhs(vars) * rhs(vars);
+        }
+    };
+
+    template<typename B, typename E>
+    struct pow
     {
-        return std::pow(vars.at(i), e);
-    }
-};
+        B b;
 
-template<long val>
-struct constant
-{
-    template<size_t var_count>
-    inline double operator()(std::array<double, var_count> vars) const noexcept
+        E e;
+
+        template<size_t var_count>
+        inline double operator()(std::array<double, var_count> vars) const noexcept
+        {
+            return std::pow(b(vars), e(vars));
+        }
+    };
+
+    template<long val>
+    struct constant
     {
-        return val;
-    }
-};
+        template<size_t var_count>
+        inline double operator()(std::array<double, var_count> vars) const noexcept
+        {
+            return val;
+        }
+    };
+}
 
 
 #endif //SYMBOLIC_DIFFERENTIATION_AST_HPP
