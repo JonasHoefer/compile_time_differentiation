@@ -10,7 +10,7 @@ namespace diff
     {
         static constexpr auto value = a < b ? b : a;
     };
-    
+
     using x = var<0>;
 
     using y = var<1>;

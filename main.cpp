@@ -2,13 +2,15 @@
 
 #include "differentiation.hpp"
 #include "util.hpp"
+#include "literals.hpp"
 
 using namespace diff;
+using namespace diff::literals;
 
 /**
  * print arrays
  */
-std::ostream &operator<<(std::ostream &os, const std::map<size_t, double> &m)
+std::ostream& operator<<(std::ostream& os, const std::map<size_t, double>& m)
 {
     os << m.begin()->second;
     for (auto i = ++m.begin(); i != m.end(); ++i)
@@ -33,6 +35,10 @@ int main()
                                      {var_num<diff::y>::value, 4.0}};
     std::cout << "f(" << vars << ") = " << func(vars) << std::endl;
     std::cout << "f'(" << vars << ") = " << func_x(vars) << std::endl;
+
+
+    auto test = (2_c ^ 3_c) * 17_c + 420_c;
+    std::cout << test(vars) << std::endl;
 
     return 0;
 }
