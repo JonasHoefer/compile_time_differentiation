@@ -8,12 +8,12 @@ using namespace diff;
 /**
  * print arrays
  */
-template<typename T, size_t l>
-std::ostream &operator<<(std::ostream &os, std::array<T, l> a)
+std::ostream &operator<<(std::ostream &os, const std::map<size_t, double> &m)
 {
-    for (size_t i = 0; i < l - 1; ++i)
-        os << a[i] << ", ";
-    return os << a[l - 1];
+    os << m.begin()->second;
+    for (auto i = ++m.begin(); i != m.end(); ++i)
+        os << ", " << i->second;
+    return os;
 }
 
 /**
@@ -29,7 +29,8 @@ int main()
     f func;
     f_x func_x;
 
-    std::array<double, 1> vars = {2};
+    std::map<size_t, double> vars = {{var_num<diff::x>::value, 2.0},
+                                     {var_num<diff::y>::value, 4.0}};
     std::cout << "f(" << vars << ") = " << func(vars) << std::endl;
     std::cout << "f'(" << vars << ") = " << func_x(vars) << std::endl;
 

@@ -2,7 +2,7 @@
 #define SYMBOLIC_DIFFERENTIATION_AST_HPP
 
 #include <math.h>
-#include <array>
+#include <map>
 #include <type_traits>
 
 namespace diff
@@ -10,8 +10,7 @@ namespace diff
     template<size_t i>
     struct var
     {
-        template<size_t var_count>
-        inline double operator()(std::array<double, var_count> vars) const noexcept
+        inline double operator()(std::map<size_t, double> vars) const noexcept
         {
             return vars.at(i);
         }
@@ -31,8 +30,7 @@ namespace diff
 
         rhs_t rhs;
 
-        template<size_t var_count>
-        inline double operator()(std::array<double, var_count> vars) const noexcept
+        inline double operator()(std::map<size_t, double> vars) const noexcept
         {
             return lhs(vars) + rhs(vars);
         }
@@ -45,8 +43,7 @@ namespace diff
 
         rhs_t rhs;
 
-        template<size_t var_count>
-        inline double operator()(std::array<double, var_count> vars) const noexcept
+        inline double operator()(std::map<size_t, double> vars) const noexcept
         {
             return lhs(vars) * rhs(vars);
         }
@@ -59,8 +56,7 @@ namespace diff
 
         E e;
 
-        template<size_t var_count>
-        inline double operator()(std::array<double, var_count> vars) const noexcept
+        inline double operator()(std::map<size_t, double> vars) const noexcept
         {
             return std::pow(b(vars), e(vars));
         }
@@ -69,8 +65,7 @@ namespace diff
     template<long val>
     struct constant
     {
-        template<size_t var_count>
-        inline double operator()(std::array<double, var_count> vars) const noexcept
+        inline double operator()(std::map<size_t, double> vars) const noexcept
         {
             return val;
         }
