@@ -31,7 +31,7 @@ struct var_count<times<lhs, rhs>>
 };
 
 template<size_t i, size_t e>
-struct var_count<pow_x<i, e>>
+struct var_count<pow_var<i, e>>
 {
     static constexpr auto value = 1;
 };

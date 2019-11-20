@@ -1,7 +1,3 @@
-//
-// Created by jonas on 19.11.19.
-//
-
 #ifndef SYMBOLIC_DIFFERENTIATION_DIFFERENTIATION_HPP
 #define SYMBOLIC_DIFFERENTIATION_DIFFERENTIATION_HPP
 
@@ -32,9 +28,9 @@ struct derivative<times<lhs, rhs>, x_i>
 };
 
 template<size_t i, size_t e, size_t x_i>
-struct derivative<pow_x<i, e>, x_i>
+struct derivative<pow_var<i, e>, x_i>
 {
-    using type = std::conditional_t<x_i == i, times<constant<e>, pow_x<i, e - 1>>, constant<0>>;
+    using type = std::conditional_t<x_i == i, times<constant<e>, pow_var<i, e - 1>>, constant<0>>;
 };
 
 

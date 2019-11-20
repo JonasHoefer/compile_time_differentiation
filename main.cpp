@@ -21,8 +21,8 @@ std::ostream& operator<<(std::ostream& os, std::array<T, l> a)
  */
 int main()
 {
-    using f_t = plus<pow_x<0, 3>, pow_x<0, 2>>;
-    using df_t = D<f_t, 1>;
+    using f_t = plus<pow_var<0, 3>, pow_var<0, 2>>;
+    using df_t = D<f_t, 0>;
 
     f_t f;
     df_t Df;

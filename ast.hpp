@@ -9,7 +9,7 @@ template<size_t i>
 struct var
 {
     template<size_t var_count>
-    double operator()(std::array<double, var_count> vars)
+    inline double operator()(std::array<double, var_count> vars) const noexcept
     {
         return vars.at(i);
     }
@@ -30,7 +30,7 @@ struct plus
     rhs_t rhs;
 
     template<size_t var_count>
-    double operator()(std::array<double, var_count> vars)
+    inline double operator()(std::array<double, var_count> vars) const noexcept
     {
         return lhs(vars) + rhs(vars);
     }
@@ -44,18 +44,18 @@ struct times
     rhs_t rhs;
 
     template<size_t var_count>
-    double operator()(std::array<double, var_count> vars)
+    inline double operator()(std::array<double, var_count> vars) const noexcept
     {
         return lhs(vars) * rhs(vars);
     }
 };
 
 template<size_t i, size_t e>
-struct pow_x
+struct pow_var
 {
 
     template<size_t var_count>
-    double operator()(std::array<double, var_count> vars)
+    inline double operator()(std::array<double, var_count> vars) const noexcept
     {
         return std::pow(vars.at(i), e);
     }
@@ -65,7 +65,7 @@ template<long val>
 struct constant
 {
     template<size_t var_count>
-    double operator()(std::array<double, var_count> vars)
+    inline double operator()(std::array<double, var_count> vars) const noexcept
     {
         return val;
     }
