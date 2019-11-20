@@ -11,11 +11,11 @@ namespace diff
         static constexpr auto value = a < b ? b : a;
     };
 
-    using x = var<0>;
+    constexpr auto x = var<0>();
 
-    using y = var<1>;
+    constexpr auto y = var<1>();
 
-    using z = var<2>;
+    constexpr auto z = var<2>();
 
     template<typename T>
     struct var_num;
@@ -26,8 +26,14 @@ namespace diff
         static constexpr size_t value = i;
     };
 
-    template<typename F, typename V>
-    using d = D<F, var_num<V>::value>;
+    template<typename F, typename V = typeof(x)>
+    using d = derivative_t<F, var_num<std::remove_const_t<V>>::value>;
+
+    template<typename T, typename V = typeof(x)>
+    constexpr auto D(T t, V v = x)
+    {
+        return d<T, V>();
+    }
 }
 
 #endif //SYMBOLIC_DIFFERENTIATION_UTIL_HPP

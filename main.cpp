@@ -25,20 +25,12 @@ std::ostream& operator<<(std::ostream& os, const std::map<size_t, double>& m)
  */
 int main()
 {
-    using f = plus<diff::pow<x, constant<3>>, diff::pow<x, constant<2>>>;
-    using f_x = d<f, x>;
+    std::map<size_t, double> vars = {{x.id, 2.0},
+                                     {y.id, 4.0}};
 
-    f func;
-    f_x func_x;
-
-    std::map<size_t, double> vars = {{var_num<diff::x>::value, 2.0},
-                                     {var_num<diff::y>::value, 4.0}};
-    std::cout << "f(" << vars << ") = " << func(vars) << std::endl;
-    std::cout << "f'(" << vars << ") = " << func_x(vars) << std::endl;
-
-
-    auto test = (2_c ^ 3_c) * 17_c + 420_c;
-    std::cout << test(vars) << std::endl;
+    auto f = 2_c * (x ^ 3_c) + 3_c * (x ^ 2_c);
+    std::cout << "f(" << vars << ") = " << f(vars) << std::endl;
+    std::cout << "Df(" << vars << ") = " << D(f)(vars) << std::endl;
 
     return 0;
 }

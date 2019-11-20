@@ -10,6 +10,8 @@ namespace diff
     template<size_t i>
     struct var
     {
+        static constexpr size_t id = i;
+
         inline double operator()(const std::map<size_t, double>& vars) const noexcept
         {
             return vars.at(i);
