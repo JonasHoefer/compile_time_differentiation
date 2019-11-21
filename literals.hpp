@@ -29,15 +29,19 @@ namespace diff::literals
     }
 
     template<typename LHS, typename RHS>
-    ast::times <LHS, RHS> operator*(LHS, RHS) noexcept
-    { return {}; }
-
-    template<typename LHS, typename RHS>
     ast::plus <LHS, RHS> operator+(LHS, RHS) noexcept
     { return {}; }
 
     template<typename LHS, typename RHS>
     ast::minus <LHS, RHS> operator-(LHS, RHS) noexcept
+    { return {}; }
+
+    template<typename LHS, typename RHS>
+    ast::times <LHS, RHS> operator*(LHS, RHS) noexcept
+    { return {}; }
+
+    template<typename LHS, typename RHS>
+    ast::divide <LHS, RHS> operator/(LHS, RHS) noexcept
     { return {}; }
 
     template<typename BASE, typename EXP>
