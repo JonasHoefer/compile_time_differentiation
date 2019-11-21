@@ -51,6 +51,14 @@ namespace diff::literals
     template<typename T>
     ast::sin <T> sin(T) noexcept
     { return {}; }
+
+    template<typename T>
+    ast::cos <T> cos(T) noexcept
+    { return {}; }
+
+    template<typename T>
+    ast::ln <T> ln(T) noexcept
+    { return {}; }
 }
 
 #endif //SYMBOLIC_DIFFERENTIATION_LITERALS_HPP

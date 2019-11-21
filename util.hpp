@@ -11,6 +11,8 @@ namespace diff
         static constexpr auto value = a < b ? b : a;
     };
 
+    constexpr auto e = ast::e();
+
     constexpr auto x = ast::var<0>();
 
     constexpr auto y = ast::var<1>();

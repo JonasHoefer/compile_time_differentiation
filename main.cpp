@@ -10,12 +10,10 @@ using namespace diff::literals;
 
 int main()
 {
-    auto f = sin(x) - 2_c * (y ^ 3_c) * (x ^ 2_c);  // create a function
-    auto df = D(f);  // differentiate it
-
-    ast::vars_t vars = {x = 2, y = 4};
-
-    std::cout << df(vars) << std::endl;  // evaluate it
+    auto f = e ^x;
+    std::cout << f({x = 2, y = 4}) << std::endl;
+    std::cout << D(f)({x = 2, y = 4}) << std::endl;
+    std::cout << D(D(f))({x = 2, y = 4}) << std::endl;
 
     return 0;
 }

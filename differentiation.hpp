@@ -59,6 +59,12 @@ namespace diff
                 ast::constant<0>>;
     };
 
+    template<typename T, size_t d>
+    struct derivative<ast::pow<ast::e, T>, d>
+    {
+        using type = ast::times<derivative_t<T, d>, ast::pow<ast::e, T>>;
+    };
+
     template<typename T, size_t x_i>
     struct derivative<ast::sin<T>, x_i>
     {
@@ -69,6 +75,13 @@ namespace diff
     struct derivative<ast::cos<T>, x_i>
     {
         using type = ast::times<derivative_t<T, x_i>, ast::times<ast::constant<-1>, ast::sin<T>>>;
+    };
+
+
+    template<typename T, size_t x_i>
+    struct derivative<ast::ln<T>, x_i>
+    {
+        using type = ast::divide<derivative_t<T, x_i>, T>;
     };
 }
 

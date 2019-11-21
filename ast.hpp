@@ -120,6 +120,25 @@ namespace diff::ast
             return std::cos(t(vars));
         }
     };
+
+    template<typename T>
+    struct ln
+    {
+        T t;
+
+        inline double operator()(const vars_t& vars) const noexcept
+        {
+            return std::log(t(vars));
+        }
+    };
+
+    struct e
+    {
+        inline double operator()(const vars_t&) const noexcept
+        {
+            return M_E;
+        }
+    };
 }
 
 
