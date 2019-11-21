@@ -3,4 +3,4 @@ project(symbolic_differentiation)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(symbolic_differentiation main.cpp differentiation.hpp ast.hpp util.hpp literals.hpp)
+add_executable(symbolic_differentiation src/main.cpp include/diff/differentiation.hpp include/diff/ast.hpp include/diff/util.hpp include/diff/literals.hpp)
