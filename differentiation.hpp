@@ -30,9 +30,25 @@ namespace diff
     };
 
     template<typename lhs, typename rhs, size_t x_i>
+    struct derivative<ast::minus<lhs, rhs>, x_i>
+    {
+        using type = ast::minus<derivative_t<lhs, x_i>, derivative_t<rhs, x_i>>;
+    };
+
+    template<typename lhs, typename rhs, size_t x_i>
     struct derivative<ast::times<lhs, rhs>, x_i>
     {
         using type = ast::plus<ast::times<derivative_t<lhs, x_i>, rhs>, ast::times<lhs, derivative_t<rhs, x_i>>>;
+    };
+
+    template<typename lhs, typename rhs, size_t x_i>
+    struct derivative<ast::divide<lhs, rhs>, x_i>
+    {
+        using type = ast::divide<
+                ast::plus<
+                        ast::times<derivative_t<lhs, x_i>, rhs>,
+                        ast::times<lhs, derivative_t<rhs, x_i>>>,
+                ast::pow<rhs, ast::constant<2>>>;
     };
 
     template<size_t i, long c, size_t d>

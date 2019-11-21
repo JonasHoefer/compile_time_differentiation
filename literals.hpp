@@ -36,6 +36,10 @@ namespace diff::literals
     ast::plus <LHS, RHS> operator+(LHS, RHS) noexcept
     { return {}; }
 
+    template<typename LHS, typename RHS>
+    ast::minus <LHS, RHS> operator-(LHS, RHS) noexcept
+    { return {}; }
+
     template<typename BASE, typename EXP>
     ast::pow <BASE, EXP> operator^(BASE, EXP) noexcept
     { return {}; }

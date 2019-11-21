@@ -39,6 +39,19 @@ namespace diff::ast
     };
 
     template<typename lhs_t, typename rhs_t>
+    struct minus
+    {
+        lhs_t lhs;
+
+        rhs_t rhs;
+
+        inline double operator()(const vars_t& vars) const noexcept
+        {
+            return lhs(vars) - rhs(vars);
+        }
+    };
+
+    template<typename lhs_t, typename rhs_t>
     struct times
     {
         lhs_t lhs;
@@ -48,6 +61,19 @@ namespace diff::ast
         inline double operator()(const vars_t& vars) const noexcept
         {
             return lhs(vars) * rhs(vars);
+        }
+    };
+
+    template<typename lhs_t, typename rhs_t>
+    struct divide
+    {
+        lhs_t lhs;
+
+        rhs_t rhs;
+
+        inline double operator()(const vars_t& vars) const noexcept
+        {
+            return lhs(vars) / rhs(vars);
         }
     };
 
