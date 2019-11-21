@@ -3,7 +3,7 @@
 #include "diff/differentiation.hpp"
 #include "diff/literals.hpp"
 #include "diff/util.hpp"
-#include <diff/simplify.h>
+#include "diff/simplify.hpp"
 
 
 using namespace diff;
@@ -12,6 +12,8 @@ using namespace diff::literals;
 int main()
 {
     auto f = ln(e ^ (2_c * x));
+    auto df = D(f);
+    std::cout << df << " =>> " << reduce_t<typeof(df)>() << std::endl;
 
     auto g = 4_c + 0_c + (7_c + 0_c) + 0_c;
     auto gs = reduce_t<typeof(g)>();

@@ -1,5 +1,5 @@
-#ifndef SYMBOLIC_DIFFERENTIATION_SIMPLIFY_H
-#define SYMBOLIC_DIFFERENTIATION_SIMPLIFY_H
+#ifndef SYMBOLIC_DIFFERENTIATION_SIMPLIFY_HPP
+#define SYMBOLIC_DIFFERENTIATION_SIMPLIFY_HPP
 
 #include "ast.hpp"
 
@@ -16,11 +16,31 @@ namespace diff
     template <typename T>
     inline constexpr bool simplifiable_v = simplifiable<T>::value;
 
+    /*
+     * base case
+     */
+
     template <long c>
     struct simplifiable<ast::constant<c>>
     {
         static constexpr bool value = false;
     };
+
+    template <>
+    struct simplifiable<ast::e>
+    {
+        static constexpr bool value = false;
+    };
+
+    template <size_t i>
+    struct simplifiable<ast::var<i>>
+    {
+        static constexpr bool value = false;
+    };
+
+    /*
+     * plus
+     */
 
     template <typename LHS, typename RHS>
     struct simplifiable<ast::plus<LHS, RHS>>
@@ -39,6 +59,106 @@ namespace diff
     {
         static constexpr bool value = true;
     };
+
+    /*
+     * minus
+     */
+
+    template <typename LHS, typename RHS>
+    struct simplifiable<ast::minus<LHS, RHS>>
+    {
+        static constexpr bool value = simplifiable_v<LHS> || simplifiable_v<RHS>;
+    };
+
+    template <typename LHS>
+    struct simplifiable<ast::minus<LHS, ast::constant<0>>>
+    {
+        static constexpr bool value = true;
+    };
+
+    /*
+     * times
+     */
+
+    template <typename LHS, typename RHS>
+    struct simplifiable<ast::times<LHS, RHS>>
+    {
+        static constexpr bool value = simplifiable_v<LHS> || simplifiable_v<RHS>;
+    };
+
+    template <typename RHS>
+    struct simplifiable<ast::times<ast::constant<0>, RHS>>
+    {
+        static constexpr bool value = true;
+    };
+
+    template <typename RHS>
+    struct simplifiable<ast::times<ast::constant<1>, RHS>>
+    {
+        static constexpr bool value = true;
+    };
+
+    template <typename LHS>
+    struct simplifiable<ast::times<LHS, ast::constant<0>>>
+    {
+        static constexpr bool value = true;
+    };
+
+    template <typename LHS>
+    struct simplifiable<ast::times<LHS, ast::constant<1>>>
+    {
+        static constexpr bool value = true;
+    };
+
+    /*
+     * divide
+     */
+
+    template <typename LHS, typename RHS>
+    struct simplifiable<ast::divide<LHS, RHS>>
+    {
+        static constexpr bool value = simplifiable_v<LHS> || simplifiable_v<RHS>;
+    };
+
+    template <typename RHS>
+    struct simplifiable<ast::divide<ast::constant<0>, RHS>>
+    {
+        static constexpr bool value = true;
+    };
+
+    template <typename T>
+    struct simplifiable<ast::divide<T, T>>
+    {
+        static constexpr bool value = true;
+    };
+
+    /*
+     * pow
+     */
+
+    template <typename B, typename E>
+    struct simplifiable<ast::pow<B, E>>
+    {
+        static constexpr bool value = simplifiable_v<B> || simplifiable_v<E>;
+    };
+
+    template <typename B>
+    struct simplifiable<ast::pow<B, ast::constant<0>>>
+    {
+        static constexpr bool value = true;
+    };
+
+
+    /*
+     * functions
+     */
+
+    template <typename T>
+    struct simplifiable<ast::ln<T>>
+    {
+        static constexpr bool value = simplifiable_v<T>;
+    };
+
 
     /**
      * Tries to reduce the amount of nodes in a given AST
@@ -194,4 +314,4 @@ namespace diff
     };
 }
 
-#endif //SYMBOLIC_DIFFERENTIATION_SIMPLIFY_H
+#endif //SYMBOLIC_DIFFERENTIATION_SIMPLIFY_HPP

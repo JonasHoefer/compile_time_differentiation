@@ -16,10 +16,10 @@ namespace diff::ast
 
         std::pair<size_t, double> operator=(double v) const noexcept
         {
-            return {i, v};
+            return {id, v};
         }
 
-        inline double operator()(const vars_t& vars) const noexcept
+        constexpr inline double operator()(const vars_t& vars) const noexcept
         {
             return vars.at(i);
         }
@@ -28,11 +28,11 @@ namespace diff::ast
     template<typename lhs_t, typename rhs_t>
     struct plus
     {
-        lhs_t lhs;
+        static constexpr lhs_t lhs{};
 
-        rhs_t rhs;
+        static constexpr rhs_t rhs{};
 
-        inline double operator()(const vars_t& vars) const noexcept
+        constexpr inline double operator()(const vars_t& vars) const noexcept
         {
             return lhs(vars) + rhs(vars);
         }
@@ -41,11 +41,11 @@ namespace diff::ast
     template<typename lhs_t, typename rhs_t>
     struct minus
     {
-        lhs_t lhs;
+        static constexpr lhs_t lhs{};
 
-        rhs_t rhs;
+        static constexpr rhs_t rhs{};
 
-        inline double operator()(const vars_t& vars) const noexcept
+        constexpr inline double operator()(const vars_t& vars) const noexcept
         {
             return lhs(vars) - rhs(vars);
         }
@@ -54,11 +54,11 @@ namespace diff::ast
     template<typename lhs_t, typename rhs_t>
     struct times
     {
-        lhs_t lhs;
+        static constexpr lhs_t lhs{};
 
-        rhs_t rhs;
+        static constexpr rhs_t rhs{};
 
-        inline double operator()(const vars_t& vars) const noexcept
+        constexpr inline double operator()(const vars_t& vars) const noexcept
         {
             return lhs(vars) * rhs(vars);
         }
@@ -67,11 +67,11 @@ namespace diff::ast
     template<typename lhs_t, typename rhs_t>
     struct divide
     {
-        lhs_t lhs;
+        static constexpr lhs_t lhs{};
 
-        rhs_t rhs;
+        static constexpr rhs_t rhs{};
 
-        inline double operator()(const vars_t& vars) const noexcept
+        constexpr inline double operator()(const vars_t& vars) const noexcept
         {
             return lhs(vars) / rhs(vars);
         }
@@ -80,11 +80,11 @@ namespace diff::ast
     template<typename B, typename E>
     struct pow
     {
-        B b;
+        static constexpr B b{};
 
-        E e;
+        static constexpr E e{};
 
-        inline double operator()(const vars_t& vars) const noexcept
+        constexpr inline double operator()(const vars_t& vars) const noexcept
         {
             return std::pow(b(vars), e(vars));
         }
@@ -93,7 +93,7 @@ namespace diff::ast
     template<long val>
     struct constant
     {
-        inline double operator()(const vars_t&) const noexcept
+        constexpr inline double operator()(const vars_t&) const noexcept
         {
             return val;
         }
@@ -102,9 +102,9 @@ namespace diff::ast
     template<typename T>
     struct sin
     {
-        T t;
+        static constexpr T t{};
 
-        inline double operator()(const vars_t& vars) const noexcept
+        constexpr inline double operator()(const vars_t& vars) const noexcept
         {
             return std::sin(t(vars));
         }
@@ -113,9 +113,9 @@ namespace diff::ast
     template<typename T>
     struct cos
     {
-        T t;
+        static constexpr T t{};
 
-        inline double operator()(const vars_t& vars) const noexcept
+        constexpr inline double operator()(const vars_t& vars) const noexcept
         {
             return std::cos(t(vars));
         }
@@ -124,9 +124,9 @@ namespace diff::ast
     template<typename T>
     struct ln
     {
-        T t;
+        static constexpr T t{};
 
-        inline double operator()(const vars_t& vars) const noexcept
+        constexpr inline double operator()(const vars_t& vars) const noexcept
         {
             return std::log(t(vars));
         }
@@ -134,7 +134,7 @@ namespace diff::ast
 
     struct e
     {
-        inline double operator()(const vars_t&) const noexcept
+        constexpr inline double operator()(const vars_t&) const noexcept
         {
             return M_E;
         }

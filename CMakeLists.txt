@@ -4,4 +4,4 @@ project(symbolic_differentiation)
 set(CMAKE_CXX_STANDARD 17)
 
 include_directories(include)
-add_executable(symbolic_differentiation src/main.cpp include/diff/differentiation.hpp include/diff/ast.hpp include/diff/util.hpp include/diff/literals.hpp include/diff/simplify.h)
+add_executable(symbolic_differentiation src/main.cpp include/diff/differentiation.hpp include/diff/ast.hpp include/diff/util.hpp include/diff/literals.hpp include/diff/simplify.hpp)
