@@ -44,6 +44,58 @@ namespace diff
             os << ", " << i->second;
         return os;
     }
+
+    template<typename LHS, typename RHS>
+    std::ostream& operator<<(std::ostream& os, ast::plus <LHS, RHS> op)
+    {
+        return os << "(" << op.lhs << " + " << op.rhs << ")";
+    }
+
+    template<typename LHS, typename RHS>
+    std::ostream& operator<<(std::ostream& os, ast::minus <LHS, RHS> op)
+    {
+        return os << "(" << op.lhs << " - " << op.rhs << ")";
+    }
+
+    template<typename LHS, typename RHS>
+    std::ostream& operator<<(std::ostream& os, ast::times <LHS, RHS> op)
+    {
+        return os << "(" << op.lhs << " * " << op.rhs << ")";
+    }
+
+    template<typename LHS, typename RHS>
+    std::ostream& operator<<(std::ostream& os, ast::divide <LHS, RHS> op)
+    {
+        return os << "(" << op.lhs << " / " << op.rhs << ")";
+    }
+
+    template<typename LHS, typename RHS>
+    std::ostream& operator<<(std::ostream& os, ast::pow <LHS, RHS> op)
+    {
+        return os << "pow(" << op.b << ", " << op.e << ")";
+    }
+
+    template<typename T>
+    std::ostream& operator<<(std::ostream& os, ast::ln <T> ln)
+    {
+        return os << "ln(" << ln.t << ")";
+    }
+
+    template<long c>
+    std::ostream& operator<<(std::ostream& os, ast::constant <c>)
+    {
+        return os << c;
+    }
+
+    std::ostream& operator<<(std::ostream& os, ast::e)
+    {
+        return os << "e";
+    }
+
+    std::ostream& operator<<(std::ostream& os, ast::var<0>)
+    {
+        return os << "x";
+    }
 }
 
 #endif //SYMBOLIC_DIFFERENTIATION_UTIL_HPP
