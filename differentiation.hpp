@@ -12,35 +12,47 @@ namespace diff
     using derivative_t = typename derivative<T, x_i>::type;
 
     template<size_t i, size_t x_i>
-    struct derivative<var<i>, x_i>
+    struct derivative<ast::var<i>, x_i>
     {
-        using type = std::conditional_t<x_i == i, constant<1>, var<i>>;
+        using type = std::conditional_t<x_i == i, ast::constant<1>, ast::var<i>>;
     };
 
     template<long c, size_t x_i>
-    struct derivative<constant<c>, x_i>
+    struct derivative<ast::constant<c>, x_i>
     {
-        using type = constant<0>;
+        using type = ast::constant<0>;
     };
 
     template<typename lhs, typename rhs, size_t x_i>
-    struct derivative<plus<lhs, rhs>, x_i>
+    struct derivative<ast::plus<lhs, rhs>, x_i>
     {
-        using type = plus<derivative_t<lhs, x_i>, derivative_t<rhs, x_i>>;
+        using type = ast::plus<derivative_t<lhs, x_i>, derivative_t<rhs, x_i>>;
     };
 
     template<typename lhs, typename rhs, size_t x_i>
-    struct derivative<times<lhs, rhs>, x_i>
+    struct derivative<ast::times<lhs, rhs>, x_i>
     {
-        using type = plus<times<derivative_t<lhs, x_i>, rhs>, times<lhs, derivative_t<rhs, x_i>>>;
+        using type = ast::plus<ast::times<derivative_t<lhs, x_i>, rhs>, ast::times<lhs, derivative_t<rhs, x_i>>>;
     };
 
     template<size_t i, long c, size_t d>
-    struct derivative<pow<var<i>, constant<c>>, d>
+    struct derivative<ast::pow<ast::var<i>, ast::constant<c>>, d>
     {
         using type = std::conditional_t<i == d,
-                times<constant<c>, pow<var<i>, constant<c - 1>>>,
-                constant<0>>;
+                ast::times<ast::constant<c>, ast::pow<ast::var<i>, ast::constant<c - 1>>>,
+                ast::constant<0>>;
+    };
+
+    template<typename T, size_t x_i>
+    struct derivative<ast::sin<T>, x_i>
+    {
+        using type = ast::times<derivative_t<T, x_i>, ast::cos<T>>;
+    };
+
+    template<typename T, size_t x_i>
+    struct derivative<ast::cos<T>, x_i>
+    {
+        using type = ast::times<ast::constant<-1>, ast::times<derivative_t<T, x_i>, ast::sin<T>>>;
     };
 }
 

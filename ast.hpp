@@ -5,7 +5,7 @@
 #include <map>
 #include <type_traits>
 
-namespace diff
+namespace diff::ast
 {
     using vars_t = std::map<size_t, double>;
 
@@ -70,6 +70,28 @@ namespace diff
         inline double operator()(const vars_t&) const noexcept
         {
             return val;
+        }
+    };
+
+    template<typename T>
+    struct sin
+    {
+        T t;
+
+        inline double operator()(const vars_t& vars) const noexcept
+        {
+            return std::sin(t(vars));
+        }
+    };
+
+    template<typename T>
+    struct cos
+    {
+        T t;
+
+        inline double operator()(const vars_t& vars) const noexcept
+        {
+            return std::cos(t(vars));
         }
     };
 }

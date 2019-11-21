@@ -11,17 +11,17 @@ namespace diff
         static constexpr auto value = a < b ? b : a;
     };
 
-    constexpr auto x = var<0>();
+    constexpr auto x = ast::var<0>();
 
-    constexpr auto y = var<1>();
+    constexpr auto y = ast::var<1>();
 
-    constexpr auto z = var<2>();
+    constexpr auto z = ast::var<2>();
 
     template<typename T>
     struct var_num;
 
     template<size_t i>
-    struct var_num<diff::var<i>>
+    struct var_num<diff::ast::var<i>>
     {
         static constexpr size_t value = i;
     };
@@ -33,6 +33,14 @@ namespace diff
     constexpr auto D(T t, V v = x)
     {
         return d<T, V>();
+    }
+
+    std::ostream& operator<<(std::ostream& os, const ast::vars_t& m)
+    {
+        os << m.begin()->second;
+        for (auto i = ++m.begin(); i != m.end(); ++i)
+            os << ", " << i->second;
+        return os;
     }
 }
 

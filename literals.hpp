@@ -25,26 +25,24 @@ namespace diff::literals
     template<char ... cs>
     auto operator ""_c()
     {
-        return constant<str_to_num<cs...>::value>();
+        return ast::constant<str_to_num<cs...>::value>();
     }
 
     template<typename LHS, typename RHS>
-    times <LHS, RHS> operator*(LHS, RHS) noexcept
-    {
-        return times<LHS, RHS>{};
-    }
+    ast::times <LHS, RHS> operator*(LHS, RHS) noexcept
+    { return {}; }
 
     template<typename LHS, typename RHS>
-    plus <LHS, RHS> operator+(LHS, RHS) noexcept
-    {
-        return plus<LHS, RHS>{};
-    }
+    ast::plus <LHS, RHS> operator+(LHS, RHS) noexcept
+    { return {}; }
 
     template<typename BASE, typename EXP>
-    pow <BASE, EXP> operator^(BASE, EXP) noexcept
-    {
-        return pow<BASE, EXP>{};
-    }
+    ast::pow <BASE, EXP> operator^(BASE, EXP) noexcept
+    { return {}; }
+
+    template<typename T>
+    ast::sin <T> sin(T) noexcept
+    { return {}; }
 }
 
 #endif //SYMBOLIC_DIFFERENTIATION_LITERALS_HPP
