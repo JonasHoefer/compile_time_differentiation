@@ -14,7 +14,7 @@ namespace diff
     template<size_t i, size_t x_i>
     struct derivative<ast::var<i>, x_i>
     {
-        using type = std::conditional_t<x_i == i, ast::constant<1>, ast::var<i>>;
+        using type = std::conditional_t<x_i == i, ast::constant<1>, ast::constant<0>>;
     };
 
     template<long c, size_t x_i>
@@ -52,7 +52,7 @@ namespace diff
     template<typename T, size_t x_i>
     struct derivative<ast::cos<T>, x_i>
     {
-        using type = ast::times<ast::constant<-1>, ast::times<derivative_t<T, x_i>, ast::sin<T>>>;
+        using type = ast::times<derivative_t<T, x_i>, ast::times<ast::constant<-1>, ast::sin<T>>>;
     };
 }
 
