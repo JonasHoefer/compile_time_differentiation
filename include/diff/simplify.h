@@ -5,6 +5,47 @@
 
 namespace diff
 {
+    /**
+     * Predicate on ASTs. True if the amount of nodes can be reduced by simplify_t
+     *
+     * @tparam T - an AST
+     */
+    template <typename T>
+    struct simplifiable;
+
+    template <typename T>
+    inline constexpr bool simplifiable_v = simplifiable<T>::value;
+
+    template <long c>
+    struct simplifiable<ast::constant<c>>
+    {
+        static constexpr bool value = false;
+    };
+
+    template <typename LHS, typename RHS>
+    struct simplifiable<ast::plus<LHS, RHS>>
+    {
+        static constexpr bool value = simplifiable_v<LHS> || simplifiable_v<RHS>;
+    };
+
+    template <typename RHS>
+    struct simplifiable<ast::plus<ast::constant<0>, RHS>>
+    {
+        static constexpr bool value = true;
+    };
+
+    template <typename LHS>
+    struct simplifiable<ast::plus<LHS, ast::constant<0>>>
+    {
+        static constexpr bool value = true;
+    };
+
+    /**
+     * Tries to reduce the amount of nodes in a given AST
+     *
+     * @tparam T - an AST
+     */
+
     template<typename T>
     struct simplify;
 
@@ -125,6 +166,31 @@ namespace diff
     struct simplify<ast::pow<B, E>>
     {
         using type = ast::pow<simplify_t<B>, simplify_t<E>>;
+    };
+
+
+    /**
+     * Repeatedly applies simplify_t until simplifiable_v is false.
+     *
+     * @tparam T - an AST
+     */
+
+    template <typename T, typename = void>
+    struct reduce;
+
+    template <typename T>
+    using reduce_t = typename reduce<T>::type;
+
+    template <typename T>
+    struct reduce<T, std::enable_if_t<simplifiable_v<T>, void>>
+    {
+        using type = reduce_t<simplify_t<T>>;
+    };
+
+    template <typename T>
+    struct reduce<T, std::enable_if_t<!simplifiable_v<T>, void>>
+    {
+        using type = T;
     };
 }
 
