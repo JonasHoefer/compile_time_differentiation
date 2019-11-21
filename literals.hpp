@@ -45,7 +45,6 @@ namespace diff::literals
     {
         return pow<BASE, EXP>{};
     }
-
 }
 
 #endif //SYMBOLIC_DIFFERENTIATION_LITERALS_HPP

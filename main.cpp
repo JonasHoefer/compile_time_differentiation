@@ -25,10 +25,9 @@ std::ostream& operator<<(std::ostream& os, const std::map<size_t, double>& m)
  */
 int main()
 {
-    std::map<size_t, double> vars = {{x.id, 2.0},
-                                     {y.id, 4.0}};
+    auto f = 1_c + 2_c * (x ^ 3_c) + 3_c * (x ^ 2_c);
+    vars_t vars = {x = 2, y = 4.0};
 
-    auto f = 2_c * (x ^ 3_c) + 3_c * (x ^ 2_c);
     std::cout << "f(" << vars << ") = " << f(vars) << std::endl;
     std::cout << "Df(" << vars << ") = " << D(f)(vars) << std::endl;
 

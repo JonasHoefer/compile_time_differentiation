@@ -7,12 +7,19 @@
 
 namespace diff
 {
+    using vars_t = std::map<size_t, double>;
+
     template<size_t i>
     struct var
     {
         static constexpr size_t id = i;
 
-        inline double operator()(const std::map<size_t, double>& vars) const noexcept
+        std::pair<size_t, double> operator=(double v) const noexcept
+        {
+            return {i, v};
+        }
+
+        inline double operator()(const vars_t& vars) const noexcept
         {
             return vars.at(i);
         }
@@ -25,7 +32,7 @@ namespace diff
 
         rhs_t rhs;
 
-        inline double operator()(const std::map<size_t, double>& vars) const noexcept
+        inline double operator()(const vars_t& vars) const noexcept
         {
             return lhs(vars) + rhs(vars);
         }
@@ -38,7 +45,7 @@ namespace diff
 
         rhs_t rhs;
 
-        inline double operator()(const std::map<size_t, double>& vars) const noexcept
+        inline double operator()(const vars_t& vars) const noexcept
         {
             return lhs(vars) * rhs(vars);
         }
@@ -51,7 +58,7 @@ namespace diff
 
         E e;
 
-        inline double operator()(const std::map<size_t, double>& vars) const noexcept
+        inline double operator()(const vars_t& vars) const noexcept
         {
             return std::pow(b(vars), e(vars));
         }
@@ -60,7 +67,7 @@ namespace diff
     template<long val>
     struct constant
     {
-        inline double operator()(const std::map<size_t, double>&) const noexcept
+        inline double operator()(const vars_t&) const noexcept
         {
             return val;
         }
